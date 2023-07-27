@@ -8,14 +8,15 @@ def set_system_volume(volume):
 def main():
     recognizer = sr.Recognizer()
 
+    print("Di 'subir volumen' o 'bajar volumen' para controlar el volumen con la voz.")
+
     with sr.Microphone() as source:
-        print("Di 'subir volumen' o 'bajar volumen' para controlar el volumen con la voz.")
+        recognizer.adjust_for_ambient_noise(source)
+
         while True:
             try:
-                recognizer.adjust_for_ambient_noise(source)
                 audio = recognizer.listen(source)
-
-                command = recognizer.recognize_google(audio).lower()
+                command = recognizer.recognize_google(audio, language="es-ES").lower()
 
                 if "subir volumen" in command:
                     set_system_volume(50)
@@ -33,3 +34,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
